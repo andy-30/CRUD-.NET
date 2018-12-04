@@ -1,0 +1,4 @@
+sqlcmd -S DESKTOP-7LGVGF5\SQLEXPRESS -E
+
+
+digite o comando e clique em GO
