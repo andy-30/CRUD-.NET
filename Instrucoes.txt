@@ -1,0 +1,134 @@
+1 º - INSTALAR O MSSMS
+
+2 º - CRIAR UM PROJETO >> MVC
+
+3 º CRIAR O BD
+
+4 º CRIAR TABELAS >> DEFINIR PK E IDENTITY
+
+5 º NO VS >> MODELS >> ADD NOVO ITEM >> SELECIONAR DATA E DEPOIS ADO.NET>> NOMEAR BD
+
+6 º LEMBRAR DO NOME DO SERVIDOR PARA FAZER A CONECT STRING 
+
+7 º SELECIONAR EM MODEL A MODEL DA TABELA SQL 
+
+8 º ADICIONAR UM CONTROLADOR PARA A CLASSE 
+
+9 º AGORA QUE A CONTROLER DA CLASSE FOI CRIADA, PODEMOS EXECUTAR AS AÇÕES VIA BD E RETORNAR AS VIEWS
+
+10 º Get do CONTROLER ADICIONAR // GET: DADOS/Index 
+
+11 º Adicionar nas bibliotecas o nome da model (using MVC___CRUD.Models;)
+
+
+12 º DENTRO DO PRIMEIRO GET INDEX, ADICIONAR o nome da MODEL e criar uma instância. 
+
+EX: using (DB_MODELS db_model = new DB_MODELS())
+            {
+                return View(db_model.DADOS.ToList());
+            }
+
+14 º Adicionar uma view >> selecionar o modelo LIST>> selecionar a classe do MODELO - executa e verificar se está ok
+
+15 º Adicionar uma view no CREATE GET >> modelo CREATE >> Classe do Modelo - executar e ver se está ok
+
+
+16 º Adionar o DBMODEL no método POST / renomear o Form Colection para o nome do Modelo. Ex: Dados 
+
+public ActionResult Create(DADOS dados)
+        {
+            try
+            {
+                using (DB_MODELS db_model = new DB_MODELS())
+                {
+                    db_model.DADOS.Add(dados);
+                    db_model.SaveChanges();
+                }
+                    // TODO: Add insert logic here
+
+                    return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+17 º Método GET DETAILS >>  
+
+using (DB_MODELS dbModel = new DB_MODELS())
+            {
+
+                return View(dbModel.DADOS.Where(x => x.ID == id).FirstOrDefault());
+            }
+
+Depois é só adicionar a VIEW >> Modelo Details >> Classe do Modelo / Executar e verificar 
+
+18 º Método GET EDIT >> Adicionar um VIEW >> no get colocar o seguinte código:
+
+ using (DB_MODELS dbModel = new DB_MODELS())
+            {
+
+                return View(dbModel.DADOS.Where(x => x.ID == id).FirstOrDefault());
+            }
+                
+
+
+19 º Método POST EDIT - RENOMEAR o Action Result 
+// POST: DADOS/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, DADOS dados)
+        {
+            try
+            {
+                using (DB_MODELS dbModel = new DB_MODELS())
+                {
+                    dbModel.Entry(dados).State = EntityState.Modified;
+                    dbModel.SaveChanges();
+
+                }
+                    // TODO: Add update logic here
+
+                    return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+20 º GET DELETE : 
+
+ using (DB_MODELS dbModel = new DB_MODELS())
+            {
+
+                return View(dbModel.DADOS.Where(x => x.ID == id).FirstOrDefault());
+            }
+
+Adicionar um view 
+
+21 º POST DELETE:
+
+public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                using (DB_MODELS db_model = new DB_MODELS())
+                {
+                    DADOS dados = db_model.DADOS.Where(x => x.ID == id).FirstOrDefault();
+                    db_model.DADOS.Remove(dados);
+                    db_model.SaveChanges();
+
+                }
+
+                    return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
